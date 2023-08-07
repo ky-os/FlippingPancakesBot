@@ -201,7 +201,12 @@ listenTo("EndRound", async (epoch: number) => {
   const { rounds } = stats.unclaimedRounds;
 
   if (successBets >= 10 && rounds.length > 0) {
-    await claimReward(stats.unclaimedRounds.rounds);
-    successBets = 0;
+    try {
+      await claimReward(stats.unclaimedRounds.rounds);
+      console.log("💰 Successfully claimed rewards");
+      successBets = 0;
+    } catch (error: any) {
+      console.log("❌ Error in claiming rewards:", error.reason);
+    }
   }
 });
