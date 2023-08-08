@@ -106,6 +106,14 @@ const bet = async (props: {
     process.exit();
   }
 
+  const balance = await getBalance();
+  const bnbBalance = parseFloat(balance);
+
+  if (bnbBalance < props.betAmount * 3) {
+    console.log("❌ Insufficient balance to place bet. Stopping the process.");
+    process.exit();
+  }
+
   await strategy({
     minAcurracy: CONFIG.THRESHOLD,
     onBetUp: async ({ buyPercentage }) => {
